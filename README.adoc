@@ -1,5 +1,4 @@
-kavro
-============
+= kavro
 
 Kafka and Avro
 
