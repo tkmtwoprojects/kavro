@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+  
+  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="ignoreResourceNotFound" value="false" />
+    <property name="ignoreUnresolvablePlaceholders" value="false" />
+    <property name="locations">
+      <list>
+        <value>classpath:kavro-build.properties</value>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="kavroProducer"
+        class="com.tkmtwo.kavro.producer.KavroProducer">
+    
+    <constructor-arg value="com.tkmtwo.kavro.Greeting" />
+    
+    <property name="properties">
+      <props>
+        
+        <prop key="serializer.class">${kafka.serializer.class}</prop>
+        <prop key="metadata.broker.list">${kafka.metadata.broker.list}</prop>
+        <prop key="request.timeout.ms">${kafka.request.timeout.ms}</prop>
+        <prop key="timeout.ms">${kafka.timeout.ms}</prop>
+        <prop key="message.send.max.retries">${kafka.message.send.max.retries}</prop>
+
+        <!--
+        <prop key="serializer.class" value="${kafka.serializer.class}" />
+        <prop key="metadata.broker.list" value="${kafka.metadata.broker.list}" />
+        <prop key="request.timeout.ms" value="${kafka.request.timeout.ms}" />
+        <prop key="timeout.ms" value="${kafka.timeout.ms}" />
+        <prop key="message.send.max.retries" value="${kafka.send.max.retries}" />
+        -->
+      </props>
+    </property>
+  </bean>
+  
+</beans>

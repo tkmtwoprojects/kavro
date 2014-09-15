@@ -1,0 +1,29 @@
+
+
+plugins {
+  id "com.commercehub.gradle.plugin.avro" version "0.2.0"
+}
+
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/dependency-versions.gradle'
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/compilejava-lint.gradle'
+
+apply plugin: "com.commercehub.gradle.plugin.avro"
+
+
+
+avro {
+    stringType = "string"
+}
+
+
+
+dependencies {
+    compile "org.apache.avro:avro:${avroVersion}"
+}
+
+jar {
+  archiveName = "${rootProject.name}-${baseName}-${version}.jar"
+  from ("${projectDir}/src/main/avro") {
+    include('*.avsc')
+  }
+}

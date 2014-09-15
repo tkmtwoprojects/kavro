@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+  
+  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="ignoreResourceNotFound" value="false" />
+    <property name="ignoreUnresolvablePlaceholders" value="false" />
+    <property name="locations">
+      <list>
+        <value>classpath:kavro-build.properties</value>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="kavroConsumer"
+        class="com.tkmtwo.kavro.consumer.ConfessingKavroConsumer">
+    <constructor-arg value="com.tkmtwo.kavro.Greeting" />
+    <property name="topicName" value="com.tkmtwo.kavro.Greeting" />
+    
+    <property name="properties">
+      <props>
+        
+        <prop key="zookeeper.connect">${kafka.zookeeper.connect}</prop>
+        <prop key="group.id">${kafka.group.id}</prop>
+        <prop key="zookeeper.session.timeout.ms">${kafka.zookeeper.session.timeout.ms}</prop>
+        <prop key="zookeeper.sync.time.ms">${kafka.zookeeper.sync.time.ms}</prop>
+        <prop key="auto.commit.interval.ms">${kafka.auto.commit.interval.ms}</prop>
+        <prop key="auto.offset.reset">${kafka.auto.offset.reset}</prop>
+        
+      </props>
+    </property>
+  </bean>
+  
+</beans>

@@ -1,0 +1,15 @@
+{
+  "namespace": "com.tkmtwo.kavro",
+  "type": "record",
+  "name": "Greeting",
+  "doc": "A sample sample for a greeting.",
+  "fields": [
+    
+    { "name": "from",    "type": "string", "doc": "Greeting 'From:' name." },
+    { "name": "to",      "type": "string", "doc": "Greeting 'To:' name." },
+    { "name": "instant", "type": "long",   "doc": "Instant the greeting was made, in epoch milliseconds."},
+    { "name": "message", "type": "string", "doc": "The message/greeting." },
+    { "name": "greetingAttributes",   "type": ["null", {"type": "map", "values": "string"}], "default": null, "doc": "Arbitrary string name/values."}
+    
+  ]
+}

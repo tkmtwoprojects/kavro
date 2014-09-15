@@ -1,0 +1,51 @@
+
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/dependency-versions.gradle'
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/configurations-exclude-jcl-log4j.gradle'
+
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/checkstyle.gradle'
+apply from: 'https://raw.githubusercontent.com/TkmTwoProjects/build-tools/master/gradles/findbugs.gradle'
+
+
+dependencies {
+  compile project(':avro')
+  compile "com.google.guava:guava:${guavaVersion}"
+  compile "org.apache.avro:avro:${avroVersion}"
+
+  compile 'org.apache.kafka:kafka_2.10:0.8.1.1'
+  //compile 'org.apache.kafka:kafka_2.10:0.8.2-SNAPSHOT'
+  //compile 'org.apache.kafka:kafka-clients:0.8.2-SNAPSHOT'
+
+  compile "org.slf4j:slf4j-api:${slf4jVersion}"
+  compile "org.springframework:spring-context:${springFrameworkVersion}"
+
+  testCompile "org.springframework:spring-test:${springFrameworkVersion}"
+  
+  runtime "ch.qos.logback:logback-classic:${logbackVersion}"
+  runtime "ch.qos.logback:logback-core:${logbackVersion}"
+  runtime "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+  runtime "org.slf4j:jul-to-slf4j:${slf4jVersion}"
+  runtime "org.slf4j:log4j-over-slf4j:${slf4jVersion}"
+
+  testCompile "junit:junit:${junitVersion}"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "file://$buildDir/repo")
+      //repository(url: "file:///C:/gits/tkmtwo-mvn-repo/release")
+    }
+  }
+}
+
+sourceSets {
+  test {
+    resources {
+      srcDir "${System.env.HOME}/.gradle/resources"
+    }
+  }
+}

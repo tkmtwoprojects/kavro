@@ -1,0 +1,66 @@
+kavro
+============
+
+Kafka and Avro
+
+
+
+== Serialize/Deserialize
+
+The +serde+ package has some simple serialize/deserialize classes.  When
+doing the ser/deser, I only put a schema id and the data onto the
+Kafka topic.  I do not yet have any schema resolver.
+
+
+== Producer
+
+The +producer+ package has a single producer built on the serde classes.
+
+== Consumer
+
+The +consumer+ package has an abstract consumer class with one concrete
+implementation - ConfessingKavroConsumer.  All the confessor does is
+spit out the JSON representation of the Avro message to stdout.
+
+
+== Tests
+
+This is a small repo. The best thing to do is take a look at the 
+test cases and work backwards.  The producer and consumer are
+Spring beans, and the application contexts are in the resources directory.
+
+There is one properties file not in this repo.  I do this to keep unames
+and passwds out of source code management.  You will see in 
+api/api.gradle that I include a directory in my home directory for 
+resources. I use:
+
+srcDir "${System.env.HOME}/.gradle/resources"
+
+Where HOME has been appropriately set in the environment.
+
+Both KavroProducerTest and KavroConsumerTest reference a properties
+placeholder of +kavro-build.properties+ in their application contexts.
+Using a locally-installed Kafka and Zookeeper, the properties file
+should look something like this:
+
+[source,text]
+.$HOME/.gradle/resource/kavro-build.properties
+----
+kafka.serializer.class=kafka.serializer.DefaultEncoder
+kafka.metadata.broker.list=127.0.0.1:9092
+kafka.request.timeout.ms=10
+kafka.timeout.ms=10
+kafka.message.send.max.retries=3
+
+
+
+kafka.zookeeper.connect=127.0.0.1:2181
+kafka.group.id=devbuild-01
+kafka.zookeeper.session.timeout.ms=400
+kafka.zookeeper.sync.time.ms=200
+kafka.auto.commit.interval.ms=1000
+kafka.auto.offset.reset=smallest
+----
+
+
+
